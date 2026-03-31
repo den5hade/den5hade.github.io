@@ -1,6 +1,6 @@
 import { defineConfig } from "astro/config";
-import remarkSlug from "remark-slug";
-import rehypeAutolinkHeadings from "remark-autolink-headings";
+import rehypeSlug from "rehype-slug";
+import rehypeAutolinkHeadings from "rehype-autolink-headings";
 
 // Config is intentionally minimal and parameterized for GitHub Pages base path.
 // Set `ASTRO_BASE` during build/deploy to make root-relative URLs work.
@@ -14,8 +14,8 @@ export default defineConfig({
     format: "file",
   },
   markdown: {
-    remarkPlugins: [remarkSlug],
     rehypePlugins: [
+      rehypeSlug,
       [
         rehypeAutolinkHeadings,
         {
