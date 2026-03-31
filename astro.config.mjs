@@ -1,6 +1,5 @@
 import { defineConfig } from "astro/config";
 import rehypeSlug from "rehype-slug";
-import rehypeAutolinkHeadings from "rehype-autolink-headings";
 
 // Config is intentionally minimal and parameterized for GitHub Pages base path.
 // Set `ASTRO_BASE` during build/deploy to make root-relative URLs work.
@@ -17,18 +16,6 @@ export default defineConfig({
   markdown: {
     rehypePlugins: [
       rehypeSlug,
-      [
-        rehypeAutolinkHeadings,
-        {
-          behavior: "after",
-          linkProperties: {
-            className: "heading-anchor",
-            ariaHidden: true,
-            tabIndex: -1,
-          },
-          content: { type: "text", value: "¶" },
-        },
-      ],
     ],
   },
 });
