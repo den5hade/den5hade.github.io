@@ -10,8 +10,9 @@ export default defineConfig({
   site: process.env.ASTRO_SITE || undefined,
   base,
   build: {
-    // Keep output as files for easy static hosting.
-    format: "file",
+    // Use directory format so each page becomes slug/index.html.
+    // This ensures both /blog/alembic and /blog/alembic/ resolve correctly on GitHub Pages.
+    format: "directory",
   },
   markdown: {
     rehypePlugins: [
