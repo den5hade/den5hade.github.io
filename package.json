@@ -1,0 +1,21 @@
+{
+  "name": "doerone",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "scripts": {
+    "dev": "sh -c 'mkdir -p \"$PWD/.home\" && HOME=\"$PWD/.home\" ASTRO_TELEMETRY_DISABLED=1 astro dev'",
+    "build": "sh -c 'mkdir -p \"$PWD/.home\" && HOME=\"$PWD/.home\" ASTRO_TELEMETRY_DISABLED=1 astro build'",
+    "preview": "sh -c 'mkdir -p \"$PWD/.home\" && HOME=\"$PWD/.home\" ASTRO_TELEMETRY_DISABLED=1 astro preview'"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "astro": "^6.1.2"
+  },
+  "devDependencies": {
+    "remark-autolink-headings": "^7.0.1",
+    "remark-slug": "^7.0.1"
+  }
+}

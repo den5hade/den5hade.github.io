@@ -1,0 +1,56 @@
+---
+import ContentLayout from "../../../layouts/ContentLayout.astro";
+import { getCollection } from "astro:content";
+
+export async function getStaticPaths() {
+  const blogPosts = await getCollection("blog");
+  
+  // Extract all unique tags from blog posts
+  const tags = new Set<string>();
+  blogPosts.forEach((post) => {
+    post.data.tags?.forEach((tag) => tags.add(tag));
+  });
+
+  // Generate a route for each tag
+  return Array.from(tags).map((tag) => ({
+    params: { tag },
+  }));
+}
+
+const { tag } = Astro.params;
+const blogPosts = await getCollection("blog");
+const baseUrl = import.meta.env.BASE_URL ?? "/";
+
+// Filter posts by tag and sort by date
+const filteredPosts = blogPosts
+  .filter((post) => post.data.tags?.includes(tag))
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+---
+
+<ContentLayout title={`Tag: ${tag}`}>
+  <h1 style="margin: 0 0 12px;">Tag: {tag}</h1>
+  <p style="margin: 0 0 24px; color: var(--muted); max-width: 64ch;">
+    {filteredPosts.length}
+    {filteredPosts.length === 1 ? "post" : "posts"} tagged with <em>{tag}</em>
+  </p>
+
+  {filteredPosts.length > 0 ? (
+    <ul style="padding-left: 18px; margin: 0;">
+      {filteredPosts.map((post) => (
+        <li style="margin: 14px 0;">
+          <a href={`${baseUrl}blog/${post.id}/`}>{post.data.title}</a>
+          <div style="color: var(--muted); font-size: 0.9rem;">
+            {post.data.date.toDateString()}
+            {post.data.tags?.length ? ` • ${post.data.tags.join(", ")}` : ""}
+          </div>
+        </li>
+      ))}
+    </ul>
+  ) : (
+    <p style="color: var(--muted);">No blog posts found with this tag.</p>
+  )}
+
+  <p style="margin-top: 32px;">
+    <a href={`${baseUrl}blog/`}>← Back to blog</a>
+  </p>
+</ContentLayout>

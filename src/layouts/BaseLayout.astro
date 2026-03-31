@@ -1,0 +1,88 @@
+---
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import "../styles/global.css";
+
+const title = Astro.props?.title ?? "Doerone";
+const description = Astro.props?.description;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <title>{title}</title>
+  </head>
+  <body>
+    <Header />
+    <main>
+      <article>
+        <slot />
+      </article>
+    </main>
+    <Footer />
+    <script is:inline defer>
+      document.addEventListener("DOMContentLoaded", () => {
+        const codeBlocks = document.querySelectorAll("pre code");
+        codeBlocks.forEach((code) => {
+          const pre = code.closest("pre");
+          if (!pre) return;
+          if (pre.querySelector(".code-copy-button")) return;
+
+          const button = document.createElement("button");
+          button.type = "button";
+          button.className = "code-copy-button";
+          button.textContent = "Copy";
+          button.setAttribute("aria-label", "Copy code to clipboard");
+
+          // Avoid overlapping the first lines with the button.
+          pre.style.paddingTop = "44px";
+          pre.appendChild(button);
+
+          button.addEventListener("click", async () => {
+            const text = code.innerText ?? code.textContent ?? "";
+            try {
+              await navigator.clipboard.writeText(text);
+              button.textContent = "Copied";
+              setTimeout(() => (button.textContent = "Copy"), 1200);
+            } catch (err) {
+              // Clipboard may be unavailable; fall back to selection + copy.
+              const range = document.createRange();
+              range.selectNodeContents(code);
+              const selection = window.getSelection();
+              if (selection) {
+                selection.removeAllRanges();
+                selection.addRange(range);
+              }
+              try {
+                document.execCommand("copy");
+                button.textContent = "Copied";
+                setTimeout(() => (button.textContent = "Copy"), 1200);
+              } catch {
+                button.textContent = "Copy failed";
+                setTimeout(() => (button.textContent = "Copy"), 1500);
+              } finally {
+                if (selection) selection.removeAllRanges();
+              }
+            }
+          });
+        });
+
+        // Add section anchor links for headings (reliable across markdown engines).
+        const headings = document.querySelectorAll("article h1[id], article h2[id], article h3[id], article h4[id], article h5[id], article h6[id]");
+        headings.forEach((heading) => {
+          if (heading.querySelector("a.heading-anchor")) return;
+          const a = document.createElement("a");
+          a.className = "heading-anchor";
+          a.href = `#${heading.id}`;
+          a.textContent = "¶";
+          a.setAttribute("aria-label", "Link to this section");
+          heading.appendChild(a);
+        });
+      });
+    </script>
+  </body>
+</html>
+

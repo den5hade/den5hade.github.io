@@ -1,0 +1,24 @@
+---
+// Logo integration is handled in the dedicated `logo-header` step.
+const brand = "Doerone";
+const baseUrl = import.meta.env.BASE_URL ?? "/";
+---
+
+<header style="padding: 20px 16px; max-width: 680px; margin: 0 auto;">
+  <div style="display: flex; align-items: center; justify-content: space-between; gap: 16px;">
+    <a
+      href={`${baseUrl}`}
+      style="display: flex; align-items: center; gap: 10px; font-weight: 700; letter-spacing: -0.02em;"
+      aria-label="Go to home"
+    >
+      <img src={`${baseUrl}doer_logo.png`} alt="Doerone logo" style="height: 34px; width: auto; display: block;" />
+      <span>{brand}</span>
+    </a>
+
+    <nav style="display: flex; gap: 14px; flex-wrap: wrap; justify-content: flex-end;">
+      <a href={`${baseUrl}blog/`} aria-label="Go to blog">Blog</a>
+      <a href={`${baseUrl}notes/`} aria-label="Go to notes">Notes</a>
+    </nav>
+  </div>
+</header>
+

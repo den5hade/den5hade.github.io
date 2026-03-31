@@ -1,0 +1,120 @@
+:root {
+  --text: #111827;
+  --muted: #6b7280;
+  --border: rgba(17, 24, 39, 0.12);
+  --link: #2563eb;
+  --code-bg: rgba(17, 24, 39, 0.04);
+}
+
+html {
+  color-scheme: light;
+}
+
+body {
+  margin: 0;
+  color: var(--text);
+  background: #ffffff;
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+  line-height: 1.6;
+}
+
+a {
+  color: var(--link);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+main {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+hr {
+  border: 0;
+  border-top: 1px solid var(--border);
+  margin: 24px 0;
+}
+
+article {
+  padding: 16px 0;
+}
+
+article h1,
+article h2,
+article h3,
+article h4 {
+  line-height: 1.25;
+  margin: 24px 0 12px;
+}
+
+article h1 {
+  font-size: 2rem;
+}
+
+article p {
+  margin: 0 0 14px;
+}
+
+code,
+pre {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+
+pre {
+  background: var(--code-bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px;
+  overflow: auto;
+  position: relative;
+}
+
+pre .code-copy-button {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: rgba(17, 24, 39, 0.4);
+  color: #d8d8d8;
+  border: 1px solid rgba(17, 24, 39, 0.6);
+  border-radius: 10px;
+  padding: 6px 10px;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+pre .code-copy-button:hover {
+  background: rgba(17, 24, 39, 0.09);
+}
+
+pre .code-copy-button:focus-visible {
+  outline: 3px solid rgba(37, 99, 235, 0.35);
+  outline-offset: 2px;
+}
+
+/* Render heading anchors subtly, on-demand */
+article .heading-anchor {
+  margin-left: 8px;
+  opacity: 0;
+  text-decoration: none;
+  color: var(--muted);
+  font-size: 0.95em;
+}
+
+article h1:hover .heading-anchor,
+article h2:hover .heading-anchor,
+article h3:hover .heading-anchor,
+article h4:hover .heading-anchor,
+article h5:hover .heading-anchor,
+article h6:hover .heading-anchor {
+  opacity: 1;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
