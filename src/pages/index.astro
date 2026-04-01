@@ -1,5 +1,5 @@
 ---
-import ContentLayout from "../layouts/ContentLayout.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
 import { getCollection } from "astro:content";
 
 const blogEntries = await getCollection("blog");
@@ -10,47 +10,159 @@ const baseUrl = import.meta.env.BASE_URL ?? "/";
 blogEntries.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
 notesEntries.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
 
-const latestBlog = blogEntries.slice(0, 2);
-const latestNotes = notesEntries.slice(0, 3);
+const latestBlog = blogEntries.slice(0, 8);
+const latestNotes = notesEntries.slice(0, 8);
+
+// Compute top-8 most frequent tags across all content
+const tagCounts: Record<string, { count: number; collections: Set<string> }> = {};
+for (const entry of [...blogEntries, ...notesEntries]) {
+  const collection = blogEntries.some((b) => b.id === entry.id) ? "blog" : "notes";
+  for (const tag of entry.data?.tags ?? []) {
+    if (!tagCounts[tag]) {
+      tagCounts[tag] = { count: 0, collections: new Set() };
+    }
+    tagCounts[tag].count++;
+    tagCounts[tag].collections.add(collection);
+  }
+}
+const topTags = Object.entries(tagCounts)
+  .sort((a, b) => b[1].count - a[1].count)
+  .slice(0, 8)
+  .map(([tag, data]) => ({
+    tag,
+    // Link to collection that has the tag (prefer blog if available)
+    collection: data.collections.has("blog") ? "blog" : "notes",
+  }));
 ---
 
-<ContentLayout title="Doerone">
-  <h1 style="margin: 0 0 12px;">Doerone</h1>
-  <p style="margin: 0 0 24px; color: var(--muted); max-width: 64ch;">
-    Minimalist, typography-first DevOps knowledge base. Blog posts for bigger pieces,
-    notes for small reusable patterns.
-  </p>
-
-  <section>
-    <h2 style="margin-top: 28px;">Latest blog</h2>
-    <ul style="padding-left: 18px; margin: 8px 0 0;">
-      {latestBlog.map((post) => (
-        <li>
-          <a href={`${baseUrl}blog/${post.id}/`}>{post.data.title}</a>
-          <div style="color: var(--muted); font-size: 0.9rem;">{post.data.date.toDateString()}</div>
-        </li>
-      ))}
-    </ul>
-    <p style="margin: 8px 0 0;">
-      <a href={`${baseUrl}blog/`}>View all blog posts →</a>
+<BaseLayout title="doer" wide={true}>
+  <div class="home-hero">
+    <p class="home-desc">
+      Minimalist DevOps knowledge base. Blog posts for bigger pieces, notes for small reusable patterns.
     </p>
-  </section>
+  </div>
 
-  <hr />
-
-  <section>
-    <h2>Latest notes</h2>
-    <ul style="padding-left: 18px; margin: 8px 0 0;">
-      {latestNotes.map((note) => (
-        <li>
-          <a href={`${baseUrl}notes/${note.id}/`}>{note.data.title}</a>
-          <div style="color: var(--muted); font-size: 0.9rem;">{note.data.date.toDateString()}</div>
-        </li>
+  {topTags.length > 0 && (
+    <nav class="tags-bar" aria-label="Top tags">
+      {topTags.map(({ tag, collection }) => (
+        <a class="tag-pill" href={`${baseUrl}${collection}/tag/${tag}/`}>#{tag}</a>
       ))}
-    </ul>
-    <p style="margin: 8px 0 0;">
-      <a href={`${baseUrl}notes/`}>View all notes →</a>
-    </p>
-  </section>
-</ContentLayout>
+    </nav>
+  )}
 
+  <div class="home-grid">
+    <section class="home-col">
+      <h2 class="col-heading">Blog</h2>
+      <ul class="entry-list">
+        {latestBlog.map((post) => (
+          <li class="entry-item">
+            <a href={`${baseUrl}blog/${post.id}/`}>{post.data.title}</a>
+            <span class="entry-date">{post.data.date.toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" })}</span>
+          </li>
+        ))}
+      </ul>
+      <a class="view-all" href={`${baseUrl}blog/`}>View all posts →</a>
+    </section>
+
+    <section class="home-col">
+      <h2 class="col-heading">Notes</h2>
+      <ul class="entry-list">
+        {latestNotes.map((note) => (
+          <li class="entry-item">
+            <a href={`${baseUrl}notes/${note.id}/`}>{note.data.title}</a>
+            <span class="entry-date">{note.data.date.toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" })}</span>
+          </li>
+        ))}
+      </ul>
+      <a class="view-all" href={`${baseUrl}notes/`}>View all notes →</a>
+    </section>
+  </div>
+</BaseLayout>
+
+<style>
+  .home-hero {
+    margin-bottom: 24px;
+  }
+  .home-title {
+    margin: 0 0 8px;
+    font-size: 2rem;
+  }
+  .home-desc {
+    margin: 0;
+    color: var(--muted);
+    max-width: 64ch;
+  }
+
+  /* Tags bar */
+  .tags-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 32px;
+    padding: 14px 0;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+  .tag-pill {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 999px;
+    background: rgba(17, 24, 39, 0.06);
+    color: var(--text);
+    font-size: 0.85rem;
+    text-decoration: none;
+    border: 1px solid var(--border);
+    transition: background 0.15s;
+  }
+  .tag-pill:hover {
+    background: rgba(37, 99, 235, 0.1);
+    color: var(--link);
+    text-decoration: none;
+  }
+
+  /* Two-column grid */
+  .home-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0 48px;
+  }
+  @media (max-width: 640px) {
+    .home-grid {
+      grid-template-columns: 1fr;
+      gap: 32px 0;
+    }
+  }
+
+  .col-heading {
+    margin: 0 0 16px;
+    font-size: 1.25rem;
+    font-weight: 600;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--border);
+  }
+
+  .entry-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 16px;
+  }
+  .entry-item {
+    display: flex;
+    flex-direction: column;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .entry-item a {
+    font-weight: 500;
+    line-height: 1.3;
+  }
+  .entry-date {
+    margin-top: 2px;
+    font-size: 0.82rem;
+    color: var(--muted);
+  }
+
+  .view-all {
+    font-size: 0.9rem;
+  }
+</style>

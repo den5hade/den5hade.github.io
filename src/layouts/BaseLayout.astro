@@ -5,6 +5,7 @@ import "../styles/global.css";
 
 const title = Astro.props?.title ?? "Doerone";
 const description = Astro.props?.description;
+const wide = Astro.props?.wide ?? false;
 ---
 
 <!doctype html>
@@ -17,7 +18,7 @@ const description = Astro.props?.description;
   </head>
   <body>
     <Header />
-    <main>
+    <main class={wide ? "wide" : undefined}>
       <article>
         <slot />
       </article>
@@ -25,21 +26,30 @@ const description = Astro.props?.description;
     <Footer />
     <script is:inline defer>
       document.addEventListener("DOMContentLoaded", () => {
+        // Wrap each <pre code> in a .code-block-wrapper so the copy button stays
+        // fixed in the top-right corner while the code scrolls horizontally.
         const codeBlocks = document.querySelectorAll("pre code");
         codeBlocks.forEach((code) => {
           const pre = code.closest("pre");
           if (!pre) return;
-          if (pre.querySelector(".code-copy-button")) return;
+          if (pre.closest(".code-block-wrapper")) return;
 
+          // Create wrapper
+          const wrapper = document.createElement("div");
+          wrapper.className = "code-block-wrapper";
+          pre.parentNode.insertBefore(wrapper, pre);
+          wrapper.appendChild(pre);
+
+          // Create copy button inside wrapper (above the scrolling pre)
           const button = document.createElement("button");
           button.type = "button";
           button.className = "code-copy-button";
           button.textContent = "Copy";
           button.setAttribute("aria-label", "Copy code to clipboard");
+          wrapper.appendChild(button);
 
-          // Avoid overlapping the first lines with the button.
+          // Add top padding so code isn't hidden under the button
           pre.style.paddingTop = "44px";
-          pre.appendChild(button);
 
           button.addEventListener("click", async () => {
             const text = code.innerText ?? code.textContent ?? "";
@@ -48,7 +58,6 @@ const description = Astro.props?.description;
               button.textContent = "Copied";
               setTimeout(() => (button.textContent = "Copy"), 1200);
             } catch (err) {
-              // Clipboard may be unavailable; fall back to selection + copy.
               const range = document.createRange();
               range.selectNodeContents(code);
               const selection = window.getSelection();
@@ -70,14 +79,14 @@ const description = Astro.props?.description;
           });
         });
 
-        // Add section anchor links for headings (reliable across markdown engines).
+        // Add section anchor links for headings.
         const headings = document.querySelectorAll("article h1[id], article h2[id], article h3[id], article h4[id], article h5[id], article h6[id]");
         headings.forEach((heading) => {
           if (heading.querySelector("a.heading-anchor")) return;
           const a = document.createElement("a");
           a.className = "heading-anchor";
-          a.href = `#${heading.id}`;
-          a.textContent = "¶";
+          a.href = "#" + heading.id;
+          a.textContent = "\xB6";
           a.setAttribute("aria-label", "Link to this section");
           heading.appendChild(a);
         });
@@ -85,4 +94,3 @@ const description = Astro.props?.description;
     </script>
   </body>
 </html>
-

@@ -1,10 +1,11 @@
 ---
 import BaseLayout from "./BaseLayout.astro";
 
-const title = Astro.props?.title ?? "Doerone";
+const title = Astro.props?.title ?? "doer";
+const wide = Astro.props?.wide ?? false;
 ---
 
-<BaseLayout title={title}>
+<BaseLayout title={title} wide={wide}>
   <div style="margin-top: 28px;">
     <slot />
   </div>

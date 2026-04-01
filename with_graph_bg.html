@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Fixed Graph Background</title>
+    <style>
+        body, html { margin: 0; padding: 0; background: #0f172a; width: 100%; height: 100%; overflow: hidden; }
+        #graph-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+        .content { position: relative; z-index: 10; color: white; text-align: center; margin-top: 20vh; font-family: sans-serif; pointer-events: none; }
+    </style>
+</head>
+<body>
+
+    <div id="graph-container"></div>
+    
+    <div class="content">
+        <h1>Graph Background</h1>
+        <p>Если пусто — проверь консоль (F12)</p>
+    </div>
+
+    <script>
+        const container = document.getElementById('graph-container');
+        
+        function draw() {
+            const w = window.innerWidth;
+            const h = window.innerHeight;
+            const nodes = [];
+            const numNodes = 50; // Фиксированное число для теста
+            const maxDist = 200;
+
+            // 1. Генерируем точки
+            for (let i = 0; i < numNodes; i++) {
+                nodes.push({
+                    x: Math.random() * w,
+                    y: Math.random() * h
+                });
+            }
+
+            // 2. Строим SVG строкой
+            let svg = `<svg width="${w}" height="${h}" xmlns="http://w3.org" style="background:#0f172a">`;
+            
+            // Линии
+            for (let i = 0; i < nodes.length; i++) {
+                for (let j = i + 1; j < nodes.length; j++) {
+                    const d = Math.hypot(nodes[i].x - nodes[j].x, nodes[i].y - nodes[j].y);
+                    if (d < maxDist) {
+                        const opacity = 1 - (d / maxDist);
+                        svg += `<line x1="${nodes[i].x}" y1="${nodes[i].y}" x2="${nodes[j].x}" y2="${nodes[j].y}" stroke="white" stroke-opacity="${opacity * 0.2}" stroke-width="1" />`;
+                    }
+                }
+            }
+
+            // Точки
+            nodes.forEach(n => {
+                svg += `<circle cx="${n.x}" cy="${n.y}" r="3" fill="#38bdf8" fill-opacity="0.8" />`;
+            });
+
+            svg += `</svg>`;
+            container.innerHTML = svg;
+        }
+
+        draw();
+        window.onresize = draw;
+    </script>
+</body>
+</html>

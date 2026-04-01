@@ -16,6 +16,10 @@ body {
   background: #ffffff;
   font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
   line-height: 1.6;
+  /* Sticky footer */
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
 a {
@@ -28,9 +32,17 @@ a:hover {
 }
 
 main {
+  flex: 1;
   max-width: 680px;
   margin: 0 auto;
   padding: 0 16px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Wider layout for home page */
+main.wide {
+  max-width: 1100px;
 }
 
 hr {
@@ -64,7 +76,27 @@ pre {
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 }
 
-pre {
+/* Code block wrapper keeps the copy button fixed while code scrolls */
+.code-block-wrapper {
+  position: relative;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--code-bg);
+  overflow: hidden;
+  margin-bottom: 1em;
+}
+
+.code-block-wrapper pre {
+  border: none;
+  border-radius: 0;
+  margin: 0;
+  overflow-x: auto;
+  background: transparent;
+  padding: 16px;
+}
+
+/* Standalone pre (not wrapped) keeps original appearance */
+pre:not(.code-block-wrapper pre) {
   background: var(--code-bg);
   border: 1px solid var(--border);
   border-radius: 10px;
@@ -73,24 +105,26 @@ pre {
   position: relative;
 }
 
-pre .code-copy-button {
+.code-copy-button {
   position: absolute;
-  top: 12px;
-  right: 12px;
+  top: 10px;
+  right: 10px;
+  z-index: 2;
   background: rgba(17, 24, 39, 0.4);
   color: #d8d8d8;
   border: 1px solid rgba(17, 24, 39, 0.6);
-  border-radius: 10px;
-  padding: 6px 10px;
-  font-size: 0.8rem;
+  border-radius: 8px;
+  padding: 5px 10px;
+  font-size: 0.78rem;
   cursor: pointer;
+  white-space: nowrap;
 }
 
-pre .code-copy-button:hover {
-  background: rgba(17, 24, 39, 0.09);
+.code-copy-button:hover {
+  background: rgba(17, 24, 39, 0.6);
 }
 
-pre .code-copy-button:focus-visible {
+.code-copy-button:focus-visible {
   outline: 3px solid rgba(37, 99, 235, 0.35);
   outline-offset: 2px;
 }
@@ -117,4 +151,3 @@ img {
   max-width: 100%;
   height: auto;
 }
-

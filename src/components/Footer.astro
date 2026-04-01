@@ -2,10 +2,27 @@
 const year = new Date().getFullYear();
 ---
 
-<footer style="padding: 28px 16px; color: var(--muted); font-size: 0.9rem;">
-  <div style="max-width: 680px; margin: 0 auto; display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap;">
-    <span>© {year} Doerone</span>
+<footer class="site-footer">
+  <div class="site-footer__inner">
+    <span>© {year} doer</span>
     <span>Static-first knowledge base</span>
   </div>
 </footer>
 
+<style>
+  .site-footer {
+    padding: 24px 16px;
+    color: var(--muted);
+    font-size: 0.9rem;
+    margin-top: auto;
+  }
+
+  .site-footer__inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+</style>
