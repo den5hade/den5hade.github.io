@@ -20,6 +20,8 @@ const wide = Astro.props?.wide ?? false;
   <body>
     <Header />
     <main class={wide ? "wide" : undefined}>
+      <!-- Background "do" letters -->
+      <div class="hero-bg-text">doer</div>
       <article>
         <slot />
       </article>

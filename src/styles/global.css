@@ -38,7 +38,34 @@ main {
   padding: 0 16px;
   width: 100%;
   box-sizing: border-box;
+  position: relative;
 }
+
+/* ===== CUSTOMIZE HERO BG TEXT ===== */
+/* Change SIZE: Modify font-size below */
+/* Change COLOR: Modify color property below */
+.hero-bg-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 320px; /* ← ADJUST SIZE HERE */
+  font-weight: 900;
+  color: #f5f5f5; /* ← ADJUST COLOR HERE (currently: #f5f5f5 - slightly darker than white bg) */
+  opacity: 0.4;
+  letter-spacing: -8px;
+  line-height: 1;
+  white-space: nowrap;
+  pointer-events: none;
+  user-select: none;
+  z-index: 0;
+}
+
+article {
+  position: relative;
+  z-index: 1;
+}
+/* ===== END HERO BG TEXT CUSTOMIZATION ===== */
 
 /* Wider layout for home page */
 main.wide {

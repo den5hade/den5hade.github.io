@@ -18,16 +18,16 @@ const blog = defineCollection({
   }),
 });
 
-const notes = defineCollection({
+const news = defineCollection({
   schema: baseSchema.optional(),
   loader: glob({
-    base: new URL("./notes/", contentDir),
+    base: new URL("./news/", contentDir),
     pattern: "**/*.md",
   }),
 });
 
 export const collections = {
   blog,
-  notes,
+  news,
 };
 

@@ -11,9 +11,9 @@ import type { CollectionEntry } from "astro:content";
  */
 export function getRelatedPosts(
   currentPostId: string,
-  allPosts: CollectionEntry<"blog" | "notes">[],
+  allPosts: CollectionEntry<"blog" | "news">[],
   limit: number = 3
-): CollectionEntry<"blog" | "notes">[] {
+): CollectionEntry<"blog" | "news">[] {
   const currentPost = allPosts.find((post) => post.id === currentPostId);
   if (!currentPost || !currentPost.data.tags?.length) {
     return [];

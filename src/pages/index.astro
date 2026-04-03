@@ -3,20 +3,20 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import { getCollection } from "astro:content";
 
 const blogEntries = await getCollection("blog");
-const notesEntries = await getCollection("notes");
+const newsEntries = await getCollection("news");
 
 const baseUrl = import.meta.env.BASE_URL ?? "/";
 
 blogEntries.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
-notesEntries.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+newsEntries.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
 
 const latestBlog = blogEntries.slice(0, 8);
-const latestNotes = notesEntries.slice(0, 8);
+const latestNews = newsEntries.slice(0, 8);
 
 // Compute top-8 most frequent tags across all content
 const tagCounts: Record<string, { count: number; collections: Set<string> }> = {};
-for (const entry of [...blogEntries, ...notesEntries]) {
-  const collection = blogEntries.some((b) => b.id === entry.id) ? "blog" : "notes";
+for (const entry of [...blogEntries, ...newsEntries]) {
+  const collection = blogEntries.some((b) => b.id === entry.id) ? "blog" : "news";
   for (const tag of entry.data?.tags ?? []) {
     if (!tagCounts[tag]) {
       tagCounts[tag] = { count: 0, collections: new Set() };
@@ -31,14 +31,14 @@ const topTags = Object.entries(tagCounts)
   .map(([tag, data]) => ({
     tag,
     // Link to collection that has the tag (prefer blog if available)
-    collection: data.collections.has("blog") ? "blog" : "notes",
+    collection: data.collections.has("blog") ? "blog" : "news",
   }));
 ---
 
 <BaseLayout title="doer" wide={true}>
   <div class="home-hero">
     <p class="home-desc">
-      Minimalist DevOps knowledge base. Blog posts for bigger pieces, notes for small reusable patterns.
+      Proven Python Patterns and Infrastructure Setup.
     </p>
   </div>
 
@@ -65,16 +65,16 @@ const topTags = Object.entries(tagCounts)
     </section>
 
     <section class="home-col">
-      <h2 class="col-heading">Notes</h2>
+      <h2 class="col-heading">News</h2>
       <ul class="entry-list">
-        {latestNotes.map((note) => (
+        {latestNews.map((news) => (
           <li class="entry-item">
-            <a href={`${baseUrl}notes/${note.id}/`}>{note.data.title}</a>
-            <span class="entry-date">{note.data.date.toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" })}</span>
+            <a href={`${baseUrl}news/${news.id}/`}>{news.data.title}</a>
+            <span class="entry-date">{news.data.date.toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" })}</span>
           </li>
         ))}
       </ul>
-      <a class="view-all" href={`${baseUrl}notes/`}>View all notes →</a>
+      <a class="view-all" href={`${baseUrl}news/`}>View all news →</a>
     </section>
   </div>
 </BaseLayout>
@@ -88,9 +88,11 @@ const topTags = Object.entries(tagCounts)
     font-size: 2rem;
   }
   .home-desc {
-    margin: 0;
+    margin: 0 auto;
     color: var(--muted);
-    max-width: 64ch;
+    max-width: 70ch;
+    font-size: 1.125rem;
+    text-align: center;
   }
 
   /* Tags bar */
@@ -100,8 +102,8 @@ const topTags = Object.entries(tagCounts)
     gap: 8px;
     margin-bottom: 32px;
     padding: 14px 0;
-    border-top: 1px solid var(--border);
-    border-bottom: 1px solid var(--border);
+
+    justify-content: center;
   }
   .tag-pill {
     display: inline-block;

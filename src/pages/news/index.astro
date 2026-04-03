@@ -2,33 +2,33 @@
 import ContentLayout from "../../layouts/ContentLayout.astro";
 import { getCollection } from "astro:content";
 
-const notesEntries = await getCollection("notes");
+const newsEntries = await getCollection("news");
 const baseUrl = import.meta.env.BASE_URL ?? "/";
 
-notesEntries.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+newsEntries.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
 ---
 
-<ContentLayout title="Notes">
-  <h1 style="margin: 0 0 12px;">Notes</h1>
+<ContentLayout title="News">
+  <h1 style="margin: 0 0 12px;">News</h1>
   <p style="margin: 0 0 24px; color: var(--muted); max-width: 64ch;">
     Small reusable patterns: configs, command snippets, and operational gotchas.
   </p>
 
   <ul style="padding-left: 18px; margin: 0;">
-    {notesEntries.map((note) => (
+    {newsEntries.map((news) => (
       <li style="margin: 14px 0;">
-        <a href={`${baseUrl}notes/${note.id}/`}>{note.data.title}</a>
+        <a href={`${baseUrl}news/${news.id}/`}>{news.data.title}</a>
         <div style="color: var(--muted); font-size: 0.9rem;">
-          {note.data.date.toDateString()}
-          {note.data.tags?.length ? (
+          {news.data.date.toDateString()}
+          {news.data.tags?.length ? (
             <>
               {" • "}
-              {note.data.tags.map((tag, index) => (
+              {news.data.tags.map((tag, index) => (
                 <>
-                  <a href={`${baseUrl}notes/tag/${tag}/`} style="color: var(--link); text-decoration: none;">
+                  <a href={`${baseUrl}news/tag/${tag}/`} style="color: var(--link); text-decoration: none;">
                     {tag}
                   </a>
-                  {index < note.data.tags.length - 1 ? ", " : ""}
+                  {index < news.data.tags.length - 1 ? ", " : ""}
                 </>
               ))}
             </>
