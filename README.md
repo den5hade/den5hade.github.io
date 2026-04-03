@@ -78,7 +78,76 @@ description: Essential Docker commands for daily use
 Your markdown content here...
 ```
 
-## Deployment & GitHub Actions
+## Image Support
+
+### Adding Images to Blog/News Posts
+
+**Folder Structure:**
+
+Store images in the `public/images/` directory:
+
+```
+public/
+  ├── doer_logo.png
+  ├── favicon.png
+  └── images/
+      ├── blog/
+      │   ├── docker-guide.png
+      │   └── deployment.png
+      └── news/
+          ├── quick-tip.png
+          └── config-example.png
+```
+
+### How to Use Images
+
+1. **Save your image** to `public/images/blog/` or `public/images/news/`
+
+2. **Reference it in your Markdown**:
+
+```markdown
+---
+title: Docker Guide
+date: 2024-01-15
+tags: [docker]
+---
+
+# Docker Architecture
+
+![Docker architecture diagram](/images/blog/docker-guide.png)
+
+Some text here...
+
+![Quick reference](/images/blog/deployment.png)
+```
+
+### Example Folder Organization
+
+```
+src/content/blog/
+  └── docker-deployment-guide.md
+
+public/images/blog/
+  ├── docker-architecture.png
+  ├── deployment-flow.png
+  └── commands-reference.png
+```
+
+In `docker-deployment-guide.md`, reference images like:
+
+```markdown
+![Architecture](/images/blog/docker-architecture.png)
+```
+
+### Image Best Practices
+
+- **Keep filenames descriptive** – `docker-architecture.png` instead of `image1.png`
+- **Use PNG or WebP** – Perfect for diagrams and screenshots
+- **Organize by content type** – Use `blog/` or `news/` subfolders
+- **Optimize before upload** – Compress images to reduce deployment size
+- **Add alt text** – Always include descriptions in `![alt text](...)`
+
+---## Deployment & GitHub Actions
 
 ### How It Works
 

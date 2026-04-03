@@ -3,9 +3,10 @@ import BaseLayout from "./BaseLayout.astro";
 
 const title = Astro.props?.title ?? "doer";
 const wide = Astro.props?.wide ?? false;
+const hideBackground = Astro.props?.hideBackground ?? false;
 ---
 
-<BaseLayout title={title} wide={wide}>
+<BaseLayout title={title} wide={wide} hideBackground={hideBackground}>
   <div style="margin-top: 28px;">
     <slot />
   </div>

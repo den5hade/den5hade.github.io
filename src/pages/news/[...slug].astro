@@ -24,7 +24,7 @@ const allPosts = await getCollection("news");
 const relatedPosts = getRelatedPosts(post.id, allPosts, 3);
 ---
 
-<ContentLayout title={post.data.title}>
+<ContentLayout title={post.data.title} hideBackground={true}>
   <p style="margin: 0 0 18px;">
     <a href={`${baseUrl}news/`}>← Back to news</a>
   </p>

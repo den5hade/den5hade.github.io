@@ -61,6 +61,24 @@ main {
   z-index: 0;
 }
 
+.hero-bg-text__desktop {
+  display: inline;
+}
+
+.hero-bg-text__mobile {
+  display: none;
+}
+
+@media (max-width: 480px) {
+  .hero-bg-text__desktop {
+    display: none;
+  }
+
+  .hero-bg-text__mobile {
+    display: inline;
+  }
+}
+
 article {
   position: relative;
   z-index: 1;

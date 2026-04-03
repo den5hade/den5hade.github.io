@@ -6,6 +6,7 @@ import "../styles/global.css";
 const title = Astro.props?.title ?? "Doerone";
 const description = Astro.props?.description;
 const wide = Astro.props?.wide ?? false;
+const hideBackground = Astro.props?.hideBackground ?? false;
 ---
 
 <!doctype html>
@@ -21,7 +22,12 @@ const wide = Astro.props?.wide ?? false;
     <Header />
     <main class={wide ? "wide" : undefined}>
       <!-- Background "do" letters -->
-      <div class="hero-bg-text">doer</div>
+      {!hideBackground && (
+        <div class="hero-bg-text">
+          <span class="hero-bg-text__desktop">doer</span>
+          <span class="hero-bg-text__mobile">do</span>
+        </div>
+      )}
       <article>
         <slot />
       </article>
