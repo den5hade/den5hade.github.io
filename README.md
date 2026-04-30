@@ -1,10 +1,10 @@
-# Doerone
+# git-blog
 
 Minimalist, typography-first knowledge base built with Astro (static-first).
 
 ## About
 
-**Doerone** is a lightweight blogging platform designed for professionals and developers. It's specifically built for simplicity: **write formatted Markdown documents, and the framework handles everything else.**
+**git-blog** is a lightweight blogging platform designed for professionals and developers. It's specifically built for simplicity: **write formatted Markdown documents, and the framework handles everything else.**
 
 ### How It Works
 
@@ -168,7 +168,7 @@ In `docker-deployment-guide.md`, reference images like:
    - Save
 
 2. Your site will be live at:
-   - `https://yourusername.github.io/doerone` (if a user/org repo named `doerone`)
+   - `https://yourusername.github.io/git-blog` (if a user/org repo named `git-blog`)
    - `https://yourusername.github.io/` (if repo is named `yourusername.github.io`)
 
 ### Workflow File

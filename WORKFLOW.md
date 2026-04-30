@@ -12,7 +12,9 @@ This document describes:
 From your project directory:
 
 ```bash
-cd /Users/dshaderkin/doerone
+cd /Users/dshaderkin/git-blog
+
+
 git init
 git add .
 git commit -m "Initial commit"
@@ -89,14 +91,15 @@ Pick one of the following patterns.
 **New blog post**
 
 ```bash
-cd /Users/dshaderkin/doerone
+cd /Users/dshaderkin/git-blog
+
 cp src/content/blog/docker-cheatsheet.md src/content/blog/my-new-post.md
 ```
 
 **New note**
 
 ```bash
-cd /Users/dshaderkin/doerone
+cd /Users/dshaderkin/git-blog
 cp src/content/notes/nginx-config.md src/content/notes/my-new-note.md
 ```
 
